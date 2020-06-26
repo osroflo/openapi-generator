@@ -1,0 +1,18 @@
+# ----------------------------------------------------
+# INDEX SCHEMA FILE
+# ----------------------------------------------------
+# this file allows to select which schemas you want to display in the open api ui
+# the yaml schema definition is generated automatically from  json files in samples/
+
+# ----------------------------------------------------
+# Sample Schemas
+# ----------------------------------------------------
+#PetUpdateRequestBody:
+#  $ref: "./LowFareSearchRequestBody.yaml"
+#PetCreateRequestBody:
+#  $ref: "./LowFareSearchFlexibleDaysRequestBody.yaml"
+#PetUpdateInStoreRequestBody:
+#  $ref: "./LowFareSearchFlexibleWeekendsRequestBody.yaml"
+#
+#Error:
+#  $ref: "./Error.yaml"

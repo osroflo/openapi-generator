@@ -1,0 +1,184 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+// package version
+const PACKAGE_VERSION = 'v1.0.0';
+
+$isValidArgument = false;
+
+/*
+ * This file is part of OpenAPI Generator.
+ *
+ * (c) Oscar Romero <osroflo@gmail.com>
+ *
+ * This is the main script that is used as command in the CLI to help to
+ * setup  the converter project.
+ */
+if (version_compare(PHP_VERSION, '7.3', '<')) {
+    fwrite(STDERR,
+        sprintf('This version of OpenAPI Generator is supported on PHP 7.3 or greater.' . PHP_EOL .
+            'You are using PHP %s (%s).' . PHP_EOL,
+            PHP_VERSION,
+            PHP_BINARY
+        )
+    );
+    die(1);
+}
+
+
+if (!ini_get('date.timezone')) {
+    ini_set('date.timezone', 'UTC');
+}
+
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+    if (file_exists($file)) {
+        define('OPENAPI_GENERATOR_COMPOSER_INSTALL', $file);
+        break;
+    }
+}
+
+unset($file);
+
+if (!defined('OPENAPI_GENERATOR_COMPOSER_INSTALL')) {
+    fwrite(STDERR,
+        'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+        '    composer install' . PHP_EOL . PHP_EOL .
+        'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+    );
+    die(1);
+}
+
+// require the autoload
+require OPENAPI_GENERATOR_COMPOSER_INSTALL;
+
+$climate = new League\CLImate\CLImate;
+$climate->description(
+    sprintf('Generate OpenAPI definitions (swagger) from json request|response <light_green>%s</light_green>', PACKAGE_VERSION)
+);
+
+
+$climate->arguments->add([
+    'initialize' => [
+        'longPrefix'   => 'initialize',
+        'description'  => 'Setup a blank structure to start the documentation project.',
+        'noValue'     => true,
+    ],
+    'run-path-indexer' => [
+        'longPrefix'  => 'run-path-indexer',
+        'description' => 'Generate blank files from path index',
+        'noValue'     => true,
+    ],
+    'run-sample-converter' => [
+        'longPrefix'  => 'run-sample-converter',
+        'description' => 'Convert json sample request responses to definition files.',
+        'noValue'     => true,
+    ],
+    'help' => [
+        'longPrefix'  => 'help',
+        'description' => 'Prints a usage statement',
+        'noValue'     => true,
+    ],
+    'version' => [
+        'longPrefix' => 'version',
+        'description' => 'The package version',
+        'noValue' => 'v1.0.0',
+    ],
+]);
+
+/**
+ * Version
+ */
+if ($climate->arguments->defined('version')) {
+    setIsValidArgument();
+    $climate->info(PACKAGE_VERSION);
+}
+
+/**
+ * Initialize
+ */
+if ($climate->arguments->defined('initialize')) {
+    setIsValidArgument();
+    $climate->info('Initializing...');
+    initialize($climate);
+}
+
+/**
+ * Index
+ */
+if ($climate->arguments->defined('run-path-indexer')) {
+    setIsValidArgument();
+    $climate->info('Looking for new paths in the paths/_index.yaml...');
+    $pathIndexer = new Openapi\Generator\PathIndex();
+    $pathIndexer->setCurrentWorkingDirectory(getcwd());
+    $pathIndexer->setClimate($climate);
+    $pathIndexFile = './paths/_index.yaml';
+    $pathIndexer->loadFile($pathIndexFile);
+    $pathIndexer->findNewPaths();
+}
+
+
+/**
+ * Convert
+ */
+if ($climate->arguments->defined('run-sample-converter')) {
+    setIsValidArgument();
+    $climate->info('Converting samples to open api definitions...');
+
+    $converter = new Openapi\Generator\Converter();
+    $converter->setCurrentWorkingDirectory(getcwd());
+    $converter->setMappingFilePath(getcwd() . '/config/mapping.json');
+    $mapping = $converter->getMappingFile();
+    $converter->convertJsonToOAS($mapping);
+}
+
+/**
+ * Help
+ */
+if ( !$isValidArgument || $climate->arguments->defined('help')) {
+    setIsValidArgument();
+    $climate->usage();
+}
+
+function initialize($climate)
+{
+    if (is_dir(getcwd() . '/paths')) {
+        $climate->error('=> The project can not be initilized.');
+        $climate->error('=> The structure directory already exists. Make sure to initialize in an empty directory.');
+    } else {
+        copyDirRecursively(
+            getPackageDirectory('resources/.'),
+            getcwd()
+        );
+
+        $climate->info('done');
+    }
+}
+
+function copyDirRecursively($source, $destination)
+{
+    return exec(
+        sprintf(
+            'cp -a %s %s',
+            $source,
+            $destination
+        )
+    );
+}
+
+function getPackageDirectory($dir = '')
+{
+    $path  = __DIR__;
+
+    if (!empty($dir)) {
+        $path .= '/' . $dir;
+    }
+
+    return $path;
+}
+
+
+function setIsValidArgument($flag = true)
+{
+    global $isValidArgument;
+    $isValidArgument = $flag;
+}

@@ -1,0 +1,45 @@
+openapi: "3.0.0"
+
+info:
+  version: 1.0.0
+  title: The API Title
+  description: The API Description
+
+
+# --------------------------------------------------
+# Tags
+# --------------------------------------------------
+# Add all the tags of your api here
+tags:
+  - name: pet
+    description: Everything about your Pets
+    externalDocs:
+      description: Find out more
+      url: 'https://some-url-here.com'
+  - name: store
+    description: Access to Petstore orders
+
+
+# --------------------------------------------------
+# Paths
+# --------------------------------------------------
+paths:
+  $ref: "./paths/_index.yaml"
+
+
+# --------------------------------------------------
+# Servers
+# --------------------------------------------------
+servers:
+  - url: 'http://petstore.swagger.io'
+
+
+# --------------------------------------------------
+# Components
+# --------------------------------------------------
+components:
+  schemas:
+    $ref: "./schemas/_index.yaml"
+
+  responses:
+    $ref: "./responses/_index.yaml"
