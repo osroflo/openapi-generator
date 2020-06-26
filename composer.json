@@ -1,0 +1,31 @@
+{
+    "name": "osroflo/openapi-generator",
+    "description": "OpenAPI generator package for create openapi definitions from sample json request, response.",
+    "keywords": ["swagger", "openapi", "generator"],
+    "license": "DBAD",
+    "authors": [
+        {
+            "name": "Oscar Romero",
+            "email": "osroflo@gmail.com"
+        }
+    ],
+    "type": "project",
+    "require": {
+		"php": ">=7.3",
+        "league/climate": "^3.5",
+        "cebe/php-openapi": "^1.4",
+        "vlucas/phpdotenv": "^5.0",
+        "geoffroy-aubry/logger": "^1.1"
+    },
+    "require-dev": {
+		"phpunit/phpunit": "6.*"
+    },
+    "bin": [
+        "openapi-generator"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Openapi\\Generator\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+# ----------------------------------------------------
+# REUSABLE SCHEMAS (DATA MODELS)
+# ----------------------------------------------------
+# - https://swagger.io/docs/specification/components/#structure
+# - Corresponds with the components > schemas
+# - Externally Defined Components
+# - Uncomment the schema and replace with your values
+
+#PetCreateRequestBody:
+#  $ref: "./PetCreatePost.yaml"
+#PetCreateResponse:
+#  $ref: "../responses/PetCreatePost.yaml"

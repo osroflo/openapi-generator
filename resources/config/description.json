@@ -1,0 +1,7 @@
+{
+    "descriptions": {
+        "passengers": {
+            "description": "The number of passengers by age group. list of passenger types and ages(if youth or child)"            
+        }
+    }
+}

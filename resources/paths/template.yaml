@@ -1,0 +1,27 @@
+tags:
+  - {PATH_TAG}
+
+description: Sample description.
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../schemas/{FILENAME}.yaml'
+
+responses:
+
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '../responses/{FILENAME}.yaml'
+
+#   default:
+#     description: Error
+#     content:
+#       application/json:
+#         schema:
+#           $ref: '../responses/{FILENAME}Error.yaml'

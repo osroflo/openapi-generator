@@ -1,0 +1,54 @@
+# ----------------------------------------------------
+# INDEX PATH FILE
+# ----------------------------------------------------
+# un-comments the following sample path endpoints and replace with yours
+# 1 - define paths for example (try to use PascalCase to define files names):
+#    /user:
+#      post:
+#        $ref: "./UserCreate.yaml"
+#
+# 2 - run command to generate the definitions from the main paths/_index.path
+# ./vendor/bin/openapi-generator --run-path-indexer
+
+
+# ----------------------------------------------------
+# PET ENDPOINTS SECTION
+# ----------------------------------------------------
+#'/pet/{petId}/uploadImage':
+#  post:
+#    $ref: "./PetUploadImage.yaml"
+#
+#/pet:
+#  post:
+#    $ref: "./PetCreate.yaml"
+#  put:
+#    $ref: "./PetUpdate.yaml"
+#
+#/pet/findByStatus:
+#  get:
+#    $ref: "./PetFindByStatus.yaml"
+#
+#/pet/{petId}:
+#  get:
+#    $ref: "./PetFindById.yaml"
+#  post:
+#    $ref: "./PetUpdateInStore.yaml"
+#  delete:
+#    $ref: "./PetDelete.yaml"
+
+# ----------------------------------------------------
+# STORE ENDPOINTS SECTION
+# ----------------------------------------------------
+#/store/order:
+#  post:
+#    $ref: "StoreOrderCreate.yaml"
+#
+#/store/order/{orderId}:
+#  get:
+#    $ref: "StoreOrderRetrieve.yaml"
+#  delete:
+#    $ref: "StoreOrderDelete.yaml"
+#
+#/store/inventory:
+#  get:
+#    $ref: "StoreInventoryRetrieve.yaml"
